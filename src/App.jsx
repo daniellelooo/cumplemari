@@ -71,16 +71,76 @@ function ConfettiHearts() {
 
 function CircularCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % photos.length);
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
-  // Mostrar 5 fotos: 2 izq, 1 centro, 2 der con efecto de profundidad
+  // Versión móvil - carrusel simple
+  if (isMobile) {
+    return (
+      <div className="mobile-carousel-container">
+        <div className="mobile-carousel">
+          <div className="mobile-photo-wrapper">
+            <img 
+              src={`/photos/${photos[currentIndex]}`} 
+              alt={`Mari ${currentIndex + 1}`}
+              className="mobile-photo"
+            />
+            <div className="mobile-photo-overlay">
+              <div className="mobile-heart">💖</div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mobile-controls">
+          <button 
+            className="mobile-btn prev"
+            onClick={() => setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length)}
+          >
+            ‹
+          </button>
+          <span className="mobile-counter">
+            {currentIndex + 1} / {photos.length}
+          </span>
+          <button 
+            className="mobile-btn next"
+            onClick={() => setCurrentIndex((prev) => (prev + 1) % photos.length)}
+          >
+            ›
+          </button>
+        </div>
+        
+        <div className="mobile-dots">
+          {photos.slice(0, 8).map((_, idx) => (
+            <button
+              key={idx}
+              className={`mobile-dot ${currentIndex === idx ? 'active' : ''}`}
+              onClick={() => setCurrentIndex(idx)}
+            />
+          ))}
+          {photos.length > 8 && <span className="mobile-more">+{photos.length - 8}</span>}
+        </div>
+      </div>
+    );
+  }
+
+  // Versión desktop - carrusel con múltiples fotos
   const getVisiblePhotos = () => {
     const visible = [];
     for (let i = -2; i <= 2; i++) {
