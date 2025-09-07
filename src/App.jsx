@@ -47,17 +47,19 @@ const photos = [
 ];
 
 function ConfettiHearts() {
-  // Renderiza corazones animados flotando
+  // Menos corazones para móviles
+  const heartsCount = window.innerWidth <= 768 ? 8 : 15;
+  
   return (
     <div className="confetti-hearts">
-      {Array.from({ length: 30 }).map((_, i) => (
+      {Array.from({ length: heartsCount }).map((_, i) => (
         <span
           key={i}
           className="heart"
           style={{
             left: `${Math.random() * 100}%`,
             animationDelay: `${Math.random() * 4}s`,
-            animationDuration: `${2 + Math.random() * 3}s`,
+            animationDuration: `${3 + Math.random() * 2}s`,
           }}
         >
           ❤️

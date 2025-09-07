@@ -94,12 +94,26 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   transition: all 0.6s ease;
   filter: brightness(1.05) contrast(1.05) saturate(1.1);
 }
 
 .photo-card.center img {
   filter: brightness(1.15) contrast(1.1) saturate(1.3);
+}
+
+/* Mejorar el object-fit para móviles */
+@media (max-width: 768px) {
+  .photo-card img {
+    object-fit: cover;
+    object-position: center top;
+    filter: brightness(1.1) contrast(1.05) saturate(1.2);
+  }
+  
+  .photo-card.center img {
+    filter: brightness(1.2) contrast(1.1) saturate(1.4);
+  }
 }
 
 .photo-card:not(.center):hover .card-wrapper {
@@ -313,44 +327,117 @@ h1 {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive */
+/* Responsive optimizado para móviles */
 @media (max-width: 768px) {
+  .cumple-mari {
+    padding: 1rem 0.5rem 2rem 0.5rem;
+  }
+  
+  h1 {
+    font-size: 2.2em !important;
+    margin-bottom: 0.5em;
+  }
+  
+  .sub {
+    font-size: 1.1em !important;
+    margin-bottom: 1.5em;
+  }
+  
+  .elegant-carousel-container {
+    margin: 2rem 0;
+    padding: 1rem 0.5rem;
+  }
+  
   .carousel-stage {
-    height: 420px;
+    height: 380px;
+    margin-bottom: 2rem;
   }
   
   .card-wrapper {
-    width: 260px;
+    width: 240px;
     height: 320px;
   }
   
+  /* En móvil solo mostrar 3 fotos: 1 izq, 1 centro, 1 der */
   .photo-card {
-    transform: translateX(0) scale(0.9) !important;
+    transform: translateX(0) scale(0.75) !important;
+    opacity: 0.6 !important;
   }
   
   .photo-card.center {
     transform: translateX(0) scale(1) !important;
+    opacity: 1 !important;
+  }
+  
+  /* Ocultar fotos muy alejadas en móvil */
+  .photo-card.left:first-child,
+  .photo-card.right:last-child {
+    display: none;
   }
   
   .photo-dots {
-    padding: 1rem 1.5rem;
-    gap: 0.8rem;
+    padding: 1rem;
+    gap: 0.6rem;
+    margin: 0 0.5rem;
   }
   
   .dot {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
+  }
+  
+  .dot::before {
+    font-size: 8px;
   }
   
   .carousel-controls {
-    padding: 0.8rem 1.5rem;
-    gap: 1.5rem;
+    padding: 0.8rem 1.2rem;
+    gap: 1rem;
+    margin: 0 0.5rem;
   }
   
   .ctrl-btn {
-    width: 45px;
-    height: 45px;
-    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+  
+  .photo-number {
+    font-size: 1rem;
+    min-width: 80px;
+  }
+  
+  /* Reducir corazones en móvil */
+  .confetti-hearts .heart {
+    font-size: 1.5em;
+    opacity: 0.6;
+  }
+  
+  /* Optimizar sección de palabras especiales */
+  .special-words {
+    padding: 2rem 1rem;
+    margin: 2rem 0.5rem;
+  }
+  
+  .special-words h2 {
+    font-size: 2em;
+  }
+  
+  .words-container p {
+    font-size: 1em;
+    padding: 1rem;
+    line-height: 1.6;
+  }
+  
+  /* Mensaje final */
+  .final-message {
+    font-size: 1.6em !important;
+    margin: 2rem 0.5rem !important;
+    padding: 1.5rem !important;
+  }
+  
+  .firma {
+    font-size: 0.9em !important;
   }
 }
 
@@ -523,7 +610,9 @@ h1 {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
   z-index: 10;
+  overflow: hidden;
 }
+
 .heart {
   position: absolute;
   font-size: 2em;
@@ -531,6 +620,7 @@ h1 {
   animation: floatHeart linear infinite;
   user-select: none;
 }
+
 @keyframes floatHeart {
   0% {
     top: -2em;
@@ -544,5 +634,29 @@ h1 {
     top: 100vh;
     transform: scale(1.2) rotate(10deg);
     opacity: 0;
+  }
+}
+
+/* Optimización de corazones para móviles */
+@media (max-width: 768px) {
+  .heart {
+    font-size: 1.5em;
+    opacity: 0.5;
+  }
+  
+  @keyframes floatHeart {
+    0% {
+      top: -2em;
+      transform: scale(0.8) rotate(-5deg);
+      opacity: 0.5;
+    }
+    80% {
+      opacity: 0.7;
+    }
+    100% {
+      top: 100vh;
+      transform: scale(1) rotate(5deg);
+      opacity: 0;
+    }
   }
 }
